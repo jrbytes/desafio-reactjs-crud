@@ -1,37 +1,50 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 
-import { FiEdit3, FiTrash } from 'react-icons/fi';
+import { FiEdit3, FiTrash } from 'react-icons/fi'
 
-import { Container } from './styles';
+import { Container } from './styles'
 
 interface IFoodPlate {
-  id: number;
-  name: string;
-  image: string;
-  price: string;
-  description: string;
-  available: boolean;
+  id: number
+  name: string
+  image: string
+  price: string
+  description: string
+  available: boolean
 }
 
 interface IProps {
-  food: IFoodPlate;
-  handleDelete: (id: number) => {};
-  handleEditFood: (food: IFoodPlate) => void;
+  food: IFoodPlate
+  handleDelete: (id: number) => {}
+  handleEditFood: (food: IFoodPlate) => void
+  toggleEditModal: () => void
 }
 
 const Food: React.FC<IProps> = ({
   food,
   handleDelete,
   handleEditFood,
+  toggleEditModal,
 }: IProps) => {
-  const [isAvailable, setIsAvailable] = useState(food.available);
+  const [isAvailable, setIsAvailable] = useState(food.available)
 
   async function toggleAvailable(): Promise<void> {
-    // TODO UPDATE STATUS (available)
+    const { available } = food
+
+    if (available) {
+      Object.assign(food, { available: false })
+      setIsAvailable(false)
+    } else {
+      Object.assign(food, { available: true })
+      setIsAvailable(true)
+    }
+
+    handleEditFood(food)
   }
 
   function setEditingFood(): void {
-    // TODO - SET THE ID OF THE CURRENT ITEM TO THE EDITING FOOD AND OPEN MODAL
+    toggleEditModal()
+    handleEditFood(food)
   }
 
   return (
@@ -83,7 +96,7 @@ const Food: React.FC<IProps> = ({
         </div>
       </section>
     </Container>
-  );
-};
+  )
+}
 
-export default Food;
+export default Food
